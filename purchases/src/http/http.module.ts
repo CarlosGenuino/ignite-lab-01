@@ -1,3 +1,4 @@
+import { TestResolver } from './test.resolver';
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from 'src/database/database.module';
@@ -14,5 +15,6 @@ import { ApolloDriver } from '@nestjs/apollo';
       autoSchemaFile: path.resolve(process.cwd(), 'src/schema.gql'),
     }),
   ],
+  providers: [TestResolver],
 })
 export class HttpModule {}
