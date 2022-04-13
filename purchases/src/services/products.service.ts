@@ -1,3 +1,4 @@
+import { Product } from './../http/graphql/models/product';
 import { PrismaService } from './../database/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import slugify from 'slugify';
@@ -28,7 +29,7 @@ export class ProductsService {
     return false;
   }
 
-  async createProduct({ title }: CreateProductParams) {
+  async createProduct({ title }: CreateProductParams): Promise<Product> {
     const slug = slugify(title, {
       lower: true,
     });

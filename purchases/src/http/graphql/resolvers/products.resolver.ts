@@ -2,7 +2,6 @@ import { CreateProductInput } from './../inputs/create-product-input';
 import { ProductsService } from './../../../services/products.service';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Product } from '../models/product';
-import slugify from 'slugify';
 
 @Resolver()
 export class ProductsResolver {
@@ -13,7 +12,7 @@ export class ProductsResolver {
     return this.productsService.listAllProducts();
   }
 
-  @Mutation(() => [Product])
+  @Mutation(() => Product)
   createProduct(@Args('data') data: CreateProductInput) {
     return this.productsService.createProduct(data);
   }
