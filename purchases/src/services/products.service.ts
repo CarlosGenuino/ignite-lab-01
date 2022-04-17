@@ -15,6 +15,14 @@ export class ProductsService {
     return this.prisma.product.findMany();
   }
 
+  findById(id: string) {
+    return this.prisma.product.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
   async hasTheSameSlug(slug: string) {
     const hasTheSameSlug = await this.prisma.product.findUnique({
       where: {

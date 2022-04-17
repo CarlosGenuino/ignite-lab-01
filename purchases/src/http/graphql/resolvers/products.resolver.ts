@@ -3,7 +3,7 @@ import { ProductsService } from './../../../services/products.service';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Product } from '../models/product';
 
-@Resolver()
+@Resolver(() => Product)
 export class ProductsResolver {
   constructor(private productsService: ProductsService) {}
 
