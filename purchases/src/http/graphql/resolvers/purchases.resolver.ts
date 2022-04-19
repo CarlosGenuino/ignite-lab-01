@@ -1,3 +1,4 @@
+import { CustomersService } from './../../../services/customers.service';
 import { AuthUser } from './../../auth/current-user';
 import { Product } from './../models/product';
 import { AuthorizationGuard } from './../../auth/authorization.guard';
@@ -21,6 +22,7 @@ export class PurchasesResolver {
   constructor(
     private service: PurchaseService,
     private products: ProductsService,
+    private customers: CustomersService,
   ) {}
 
   @Query(() => [Purchase])
@@ -36,13 +38,19 @@ export class PurchasesResolver {
 
   @Mutation(() => Purchase)
   @UseGuards(AuthorizationGuard)
-  createPurchase(
+  async createPurchase(
     @Args('data') data: CreatePurchaseInput,
     @currentUser() user: AuthUser,
   ) {
+    let customer = await this.customers.findCustomerByAuthUserId(user.sub);
+
+    if (!customer) {
+      customer = await this.customers.createCustomer({ authUserId: user.sub });
+    }
+
     return this.service.create({
       productId: data.productId,
-      customerId: user.sub,
+      customerId: customer.id,
     });
   }
 }
